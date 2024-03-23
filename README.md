@@ -1,4 +1,4 @@
-# Trabalho 4 - fila do banco - Estrutura de dados
+# Trabalho 4 - Fila do Banco - Estrutura de Dados
 
 ## Integrantes
 
