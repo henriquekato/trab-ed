@@ -32,7 +32,7 @@ t_queue *create_queue(int n)
 
 int realloc_queue(t_queue *q)
 {
-    char **new = (char **)realloc(q->items, (q->max + 10) * sizeof(char *));
+    char **new = (char **)realloc(q->items, (q->max + 5) * sizeof(char *));
     if (!new)
     {
         exit(1);
@@ -40,7 +40,7 @@ int realloc_queue(t_queue *q)
 
     q->items = new;
 
-    for (int i = q->max; i < q->max + 10; i++)
+    for (int i = q->max; i < q->max + 5; i++)
     {
         q->items[i] = (char *)malloc(50 * sizeof(char));
         if (!q->items[i])
@@ -48,7 +48,11 @@ int realloc_queue(t_queue *q)
             exit(1);
         }
     }
-    q->max += 10;
+    if (q->end == 0)
+    {
+        q->end = q->max;
+    }
+    q->max += 5;
     return 1;
 }
 
@@ -62,17 +66,9 @@ int move_right(t_queue *q)
 {
     for (int i = 0; i <= q->end; i++)
     {
-        strcpy(q->items[q->n + i], q->items[i]);
+        strcpy(q->items[(q->n + i) % q->max], q->items[i]);
     }
-    return 1;
-}
-
-int move_left(t_queue *q)
-{
-    for (int i = 0; i < q->n - 1; i++)
-    {
-        strcpy(q->items[i], q->items[i + 1]);
-    }
+    q->end = (q->n + q->end) % q->max;
     return 1;
 }
 
@@ -81,12 +77,10 @@ int in(t_queue *q, char *x)
     if (is_full(q))
     {
         realloc_queue(q);
-        if (q->end < q->start)
+        if (q->start > 0)
         {
             move_right(q);
-            move_left(q);
         }
-        return 0;
     }
     strcpy(q->items[q->end], x);
     q->end = (q->end + 1) % q->max;
@@ -150,7 +144,6 @@ void print_output(char **ordem_atendimento, int qtd_atendido){
     {
         printf("%s\n", ordem_atendimento[i]);
     }
-    printf("\n");
 }
 
 void get_input(t_queue *q_preferencial, t_queue *q_geral)
@@ -207,41 +200,3 @@ void get_input(t_queue *q_preferencial, t_queue *q_geral)
     }
     free(ordem_atendimento);
 }
-
-/*
-g Rodrigo
-g Bia
-p Joel
-s
-g Fatima
-p Frederico
-p Luciana
-s
-s
-p Fabiana
-p Elen
-p Fabio
-g Valter
-s
-s
-s
-s
-s
-s
-s
-f
------------------------------------------
-p Luana
-p Joaquim
-g Manoel
-s
-s
-p Caio
-p Nair
-g Gustavo
-s
-s
-s
-s
-f
-*/

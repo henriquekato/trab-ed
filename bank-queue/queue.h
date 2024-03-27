@@ -14,7 +14,6 @@ void get_input(t_queue *q_preferencial, t_queue *q_geral);
 int in(t_queue *p, char *x);
 int out(t_queue *p, char *x);
 void print_output(char **ordem_atendimento, int qtd_atendido);
-int move_left(t_queue *q);
 int move_right(t_queue *q);
 int is_full(t_queue *p);
 int is_empty(t_queue *p);
