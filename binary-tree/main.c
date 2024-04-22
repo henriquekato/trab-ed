@@ -3,6 +3,8 @@
 #include <string.h>
 #include "tree.h"
 
+// tree: (A,(B,(),()),(C,(F,(),()),()))
+
 int main()
 {
     char entrada[100];
@@ -14,7 +16,8 @@ int main()
         printf("[1] - pre-order\n");
         printf("[2] - in-order\n");
         printf("[3] - post-order\n");
-        printf("[4] - exit\n");
+        printf("[4] - height\n");
+        printf("[5] - exit\n");
         scanf("%d%*c", &opcao);
         if (opcao == 0)
         {
@@ -36,6 +39,10 @@ int main()
             print_post_order(tree->root);
             printf("\n");
         }
-    }while(opcao != 4);
+        if (opcao == 4)
+        {
+            printf("height: %d\n", height(tree -> root));
+        }
+    }while(opcao != 5);
     return 0;
 }

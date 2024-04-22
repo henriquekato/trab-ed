@@ -44,7 +44,7 @@ void print_post_order(t_node *node)
     printf("%c ", node -> item);
 }
 
-    void create_tree(t_node *node, char *entrada)
+void create_tree(t_node *node, char *entrada)
 {
     int i = 0;
     char item = ' ';
@@ -115,4 +115,16 @@ void print_post_order(t_node *node)
     }
     str2[x + 1] = '\0';
     create_tree(node->right, str2);
+}
+
+int height(t_node *root){
+    if (root == NULL) return -1;
+    int left = height(root -> left);
+    int right = height(root -> right);
+    if (left > right){
+        return ++left;
+    }
+    else{
+        return ++right;
+    }
 }

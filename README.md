@@ -9,3 +9,5 @@
 ## [Trabalho 3 - Quick sort não recursivo](non-recursive-qsort)
 
 ## [Trabalho 4 - Fila do banco](bank-queue)
+
+## [Trabalho 5 - Árvore binária](binary-tree)

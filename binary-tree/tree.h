@@ -15,3 +15,4 @@ void print_pre_order(t_node *node);
 void print_in_order(t_node *node);
 void print_post_order(t_node *node);
 void create_tree(t_node *node, char *entrada);
+int height(t_node *root);
