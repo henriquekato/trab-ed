@@ -7,8 +7,8 @@
 
 int main()
 {
-    char entrada[100];
-    int opcao;
+    char input[100];
+    int option;
     t_tree *tree = create_root();
     do
     {
@@ -18,31 +18,31 @@ int main()
         printf("[3] - post-order\n");
         printf("[4] - height\n");
         printf("[5] - exit\n");
-        scanf("%d%*c", &opcao);
-        if (opcao == 0)
+        scanf("%d%*c", &option);
+        if (option == 0)
         {
-            gets(entrada);
-            create_tree(tree->root, entrada);
+            gets(input);
+            create_tree(tree->root, input);
         }
-        if (opcao == 1)
+        if (option == 1)
         {
             print_pre_order(tree->root);
             printf("\n");
         }
-        if (opcao == 2)
+        if (option == 2)
         {
             print_in_order(tree->root);
             printf("\n");
         }
-        if (opcao == 3)
+        if (option == 3)
         {
             print_post_order(tree->root);
             printf("\n");
         }
-        if (opcao == 4)
+        if (option == 4)
         {
             printf("height: %d\n", height(tree -> root));
         }
-    }while(opcao != 5);
+    }while(option != 5);
     return 0;
 }
