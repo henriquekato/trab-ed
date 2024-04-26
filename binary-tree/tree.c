@@ -19,9 +19,10 @@ t_tree *create_root()
     return tree;
 }
 
+
 void print_pre_order(t_node *node)
 {
-    if (node == NULL) return;
+    if (node == NULL || node -> item == '\0') return;
     printf("%c ", node -> item);
     print_pre_order(node -> left);
     print_pre_order(node -> right);
@@ -29,7 +30,7 @@ void print_pre_order(t_node *node)
 
 void print_in_order(t_node *node) 
 {
-    if (node == NULL) return;
+    if (node == NULL || node -> item == '\0') return;
     print_in_order(node -> left); 
     printf("%c ", node -> item); 
     print_in_order(node -> right); 
@@ -37,41 +38,66 @@ void print_in_order(t_node *node)
 
 void print_post_order(t_node *node)
 {
-    if (node == NULL) return;
+    if (node == NULL || node -> item == '\0') return;
     print_post_order(node -> left);
     print_post_order(node -> right);
     printf("%c ", node -> item);
 }
 
-char *get_substring(char *input, t_node *node, int *i){
-    int open = 0;
-    int tamanho = 0;
-    (*i)++;
-    int cp = *i;
+int get_string_size(char *string, int *i){
+    int opened = 0;
+    int size = 0;
     do{
-       if (input[*i] == '(')
+       if (string[*i] == '(')
         {
-            open++;
+            opened++;
         } 
-        if (input[*i] == ')')
+        if (string[*i] == ')')
         {
-            open--;
+            opened--;
         }
-        tamanho++;
+        size++;
         (*i)++;
-    }while (open != 0);
-    if (node->left == NULL)
-    {
-        node->left = create_node();
-    }
+    }while (opened != 0);
+    return size;
+}
+
+char *get_substring(char *input, int start_index, int size){
     char *str = (char *) calloc(100, sizeof(char));
     int x;
-    for (x = cp; x < tamanho + cp; x++)
+    for (x = start_index; x < size + start_index; x++)
     {
         strncat(str, &input[x], 1);
     }
     str[x + 1] = '\0';
     return str;
+}
+
+int is_valid(char *input){
+    int letters = 0, opened = 0, closed = 0;
+    int i = 0;
+    while (i < strlen(input))
+    {
+        if (input[i] != '\0' && input[i] != ' ' && input[i] != '(' && input[i] != ')' && input[i] != ',')
+        {
+            letters++;
+        }
+        if (input[i] == '(')
+        {
+            opened++;
+        }
+        else if (input[i] == ')')
+        {
+            closed++;
+        }
+        i++;
+    }
+    if (opened != closed) return 0;
+    if (letters * 2 + 1 == opened && letters * 2 + 1 == closed)
+    {
+        return 1;
+    }
+    return 0;
 }
 
 void create_tree(t_node *node, char *input)
@@ -88,13 +114,29 @@ void create_tree(t_node *node, char *input)
     }
     if (item == '\0')
         return;
+
     node->item = item;
 
-    char *str1 = get_substring(input, node, &i);
+    int size;
+    int start_index = ++i;
+    size = get_string_size(input, &i);
+    if (node->left == NULL)
+    {
+        node->left = create_node();
+    }
+
+    char *str1 = get_substring(input, start_index, size);
     create_tree(node->left, str1);
     free(str1);
 
-    char *str2 = get_substring(input, node, &i);
+    start_index = ++i;
+    size = get_string_size(input, &i);
+    if (node->right == NULL)
+    {
+        node->right = create_node();
+    }
+
+    char *str2 = get_substring(input, start_index, size);
     create_tree(node->right, str2);
     free(str2);
 }

@@ -3,7 +3,10 @@
 #include <string.h>
 #include "tree.h"
 
-// tree: (A,(B,(),()),(C,(F,(),()),()))
+// valid tree: (A,(B,(),()),(C,(F,(),()),()))
+// valid tree: (A,(B,(),()),(C,(F,(),()),(T,(),())))
+// valid tree: (A,(B,(),()),(C,(F,(),()),(T,(J,(),()),())))
+// invalid tree 3: (A,(B,()),(C,(F,(),()),()))
 
 int main()
 {
@@ -22,7 +25,10 @@ int main()
         if (option == 0)
         {
             gets(input);
-            create_tree(tree->root, input);
+            if (is_valid(input)){
+                create_tree(tree->root, input);
+            }
+            printf("\ninput inválido\n");
         }
         if (option == 1)
         {
