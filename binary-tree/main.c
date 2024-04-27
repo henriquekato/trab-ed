@@ -6,13 +6,14 @@
 // valid tree: (A,(B,(),()),(C,(F,(),()),()))
 // valid tree: (A,(B,(),()),(C,(F,(),()),(T,(),())))
 // valid tree: (A,(B,(),()),(C,(F,(),()),(T,(J,(),()),())))
-// invalid tree 3: (A,(B,()),(C,(F,(),()),()))
+// valid tree: (D,(B,(A,(),()),(C,(),())),(F,(E,(),()),(G,(),())))
+// invalid tree: (A,(B,()),(C,(F,(),()),()))
 
 int main()
 {
     char input[100];
     int option;
-    t_tree *tree = create_root();
+    t_binary_tree *tree = create_tree();
     do
     {
         printf("[0] - create tree\n");
@@ -20,15 +21,22 @@ int main()
         printf("[2] - in-order\n");
         printf("[3] - post-order\n");
         printf("[4] - height\n");
-        printf("[5] - exit\n");
+        printf("[5] - print tree\n");
+        printf("[6] - exit\n");
         scanf("%d%*c", &option);
         if (option == 0)
         {
             gets(input);
             if (is_valid(input)){
-                create_tree(tree->root, input);
+                if (tree -> root -> left != NULL || tree -> root -> right != NULL){
+                    clear_tree(tree -> root);
+                    tree = create_tree();
+                }
+                fill_tree(tree->root, input);
             }
-            printf("\ninput inválido\n");
+            else{
+                printf("\ninput invalido\n");
+            }
         }
         if (option == 1)
         {
@@ -49,6 +57,10 @@ int main()
         {
             printf("height: %d\n", height(tree -> root));
         }
-    }while(option != 5);
+        if (option == 5)
+        {
+            print_tree(tree -> root, 0);
+        }
+    }while(option != 6);
     return 0;
 }

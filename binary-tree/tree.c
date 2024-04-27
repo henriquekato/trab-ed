@@ -12,9 +12,9 @@ t_node *create_node()
     return node;
 }
 
-t_tree *create_root()
+t_binary_tree *create_tree()
 {
-    t_tree *tree = (t_tree *)malloc(sizeof(t_tree));
+    t_binary_tree *tree = (t_binary_tree *)malloc(sizeof(t_binary_tree));
     tree->root = create_node();
     return tree;
 }
@@ -34,6 +34,17 @@ void print_in_order(t_node *node)
     print_in_order(node -> left); 
     printf("%c ", node -> item); 
     print_in_order(node -> right); 
+}
+
+void print_tree(t_node *node, int qtd) 
+{   
+    if (node == NULL || node -> item == '\0') return;
+    print_tree(node -> right, qtd + 1); 
+    for (int i = 0; i < qtd; i++){
+        printf("\t");
+    }
+    printf("%c\n", node -> item); 
+    print_tree(node -> left, qtd + 1); 
 }
 
 void print_post_order(t_node *node)
@@ -76,7 +87,7 @@ char *get_substring(char *input, int start_index, int size){
 int is_valid(char *input){
     int letters = 0, opened = 0, closed = 0;
     int i = 0;
-    while (i < strlen(input))
+    while (i < (int) strlen(input))
     {
         if (input[i] != '\0' && input[i] != ' ' && input[i] != '(' && input[i] != ')' && input[i] != ',')
         {
@@ -92,15 +103,16 @@ int is_valid(char *input){
         }
         i++;
     }
+
     if (opened != closed) return 0;
-    if (letters * 2 + 1 == opened && letters * 2 + 1 == closed)
+    if ((letters * 2) + 1 == opened && (letters * 2) + 1 == closed)
     {
         return 1;
     }
     return 0;
 }
 
-void create_tree(t_node *node, char *input)
+void fill_tree(t_node *node, char *input)
 {
     int i = 0;
     char item = '\0';
@@ -126,7 +138,7 @@ void create_tree(t_node *node, char *input)
     }
 
     char *str1 = get_substring(input, start_index, size);
-    create_tree(node->left, str1);
+    fill_tree(node->left, str1);
     free(str1);
 
     start_index = ++i;
@@ -137,7 +149,7 @@ void create_tree(t_node *node, char *input)
     }
 
     char *str2 = get_substring(input, start_index, size);
-    create_tree(node->right, str2);
+    fill_tree(node->right, str2);
     free(str2);
 }
 
@@ -151,4 +163,11 @@ int height(t_node *root){
     else{
         return ++right;
     }
+}
+
+void clear_tree(t_node *node){
+    if (node == NULL) return;
+    clear_tree(node -> left); 
+    clear_tree(node -> right); 
+    free(node);
 }
