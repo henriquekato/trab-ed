@@ -35,7 +35,7 @@ int main()
                 fill_tree(tree->root, input);
             }
             else{
-                printf("\ninput invalido\n");
+                printf("\ninvalid input\n");
             }
         }
         if (option == 1)
@@ -55,7 +55,16 @@ int main()
         }
         if (option == 4)
         {
-            printf("height: %d\n", height(tree -> root));
+            char item;
+            printf("character of node to find: ");
+            scanf(" %c", &item);
+            t_node *node = get_node_by_item(tree -> root, item);
+            if (node != NULL){
+                printf("node height: %d\n", height(tree -> root, node));
+            }
+            else{
+                printf("\nnode not found\n");
+            }
         }
         if (option == 5)
         {

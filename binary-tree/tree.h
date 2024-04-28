@@ -21,4 +21,5 @@ void clear_tree(t_node *node);
 char *get_substring(char *input, int start_index, int size);
 int get_string_size(char *string, int *i);
 int is_valid(char *input);
-int height(t_node *root);
+int height(t_node *root, t_node *node);
+t_node *get_node_by_item(t_node *root, char item);

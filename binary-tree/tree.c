@@ -153,16 +153,30 @@ void fill_tree(t_node *node, char *input)
     free(str2);
 }
 
-int height(t_node *root){
+t_node *get_node_by_item(t_node *root, char item){
+    if (root == NULL) return NULL; 
+    
+    if (root -> item == item) return root;
+
+    t_node *left = get_node_by_item(root -> left, item);
+    if (left != NULL) return left;
+    
+    return get_node_by_item(root -> right, item);
+}
+
+int height(t_node *root, t_node *node){
     if (root == NULL) return -1;
-    int left = height(root -> left);
-    int right = height(root -> right);
+    if (root == node) return 1;
+    int left = height(root -> left, node);
+    int right = height(root -> right, node);
+    if (left == -1 && right == -1) return 0;
     if (left > right){
         return ++left;
     }
-    else{
+    if (right > left) {
         return ++right;
     }
+    return 0;
 }
 
 void clear_tree(t_node *node){
