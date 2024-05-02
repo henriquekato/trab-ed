@@ -1,4 +1,4 @@
-# Trabalhos de Estrutura de dados
+# Trabalhos de Estrutura de Dados
 
 ## Integrantes
 
@@ -6,8 +6,8 @@
 - [Luiz Henrique do Nascimento Silva](https://github.com/zziiuull)
 - [Thiago de Almeida Maciel](https://github.com/ThiagoDeAM)
 
-## [Trabalho 3 - Quick sort não recursivo](non-recursive-qsort)
+## [Trabalho 3 - Quick Sort Não Recursivo](non-recursive-qsort)
 
-## [Trabalho 4 - Fila do banco](bank-queue)
+## [Trabalho 4 - Fila do Banco](bank-queue)
 
-## [Trabalho 5 - Árvore binária](binary-tree)
+## [Trabalho 5 - Árvore Binária](binary-tree)
