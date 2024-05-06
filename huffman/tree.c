@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "tree.h"
 
 t_tree *create_tree(){
@@ -14,6 +15,8 @@ t_node *create_node(char item, int frequency){
     node -> frequency = frequency;
     node -> left = NULL;
     node -> right = NULL;
+    node -> path = "";
+    // node -> path = (char *) malloc(100 * sizeof(char));
     return node;
 }
 
@@ -73,11 +76,42 @@ void calc(t_list *list)
 // 0 + 0
 // 0
 
-// huffman_code *create_code_list(t_node *root, int number_of_chars){
-//     huffman_code *code_list = (huffman_code *) malloc(number_of_chars * sizeof(huffman_code));
+void node_path(t_node *node, char *path)
+{
+    if (node == NULL || node -> item == '\0') return;
+    if (node -> left){
+        strcat(node -> path, "1");
+        print_pre_order(node -> left, node -> path);
+        node -> path[strlen(node -> path) - 1] = '\0';
+    }
 
-//     for (int i = 0; i < number_of_chars; i++){
-//         code_list[i] -> code;  // tem q pegar a sequencia dele n sei como
-//     }
+    if (node -> right){
+        strcat(node -> path, "0");
+        print_pre_order(node -> right, node -> path);
+        node -> path[strlen(node -> path) - 1] = '\0';
+    }
+}
 
-// }
+huffman_code *create_code(char *code, char letra){
+    huffman_code *huff_code = (huffman_code *) malloc(sizeof(huffman_code));
+    strcpy(huff_code -> string, code);
+    huff_code -> letra = letra;
+    return huff_code;
+}
+void pre_order(t_node *node, int index, huffman_code **code_list)
+{
+    if (node == NULL || node -> item == '\0') return;
+    if (node -> item != '\0'){
+        code_list[index] = create_code(node -> path, node -> item);
+    }
+    pre_order(node -> left, index + 1, code_list);
+    pre_order(node -> right, index + 1, code_list);
+}
+
+huffman_code *create_code_list(t_node *root, int number_of_chars){
+    huffman_code **code_list = (huffman_code **) malloc(number_of_chars * sizeof(huffman_code *));
+
+    node_path(root, "");
+    pre_order(root, 0, code_list);
+    return code_list;
+}
