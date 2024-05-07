@@ -56,6 +56,18 @@ void print_list(t_list *list)
     printf("\n");
 }
 
+int if_char_in_list(t_list *list, int number_of_chars, char e)
+{
+    for (int i = 0; i < number_of_chars; i++)
+    {
+        if (list->items[i]->item == e)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
 // tree
 //  すごい
 //  geral: retorna a arvore (nó raiz) -> atribuido a tree->root no main
@@ -69,7 +81,8 @@ t_node *calc(t_list *list)
     if (list->size < 2)
         return list->items[0];
 
-    for (int i = 0; i < list->size; i++)
+    int max_size = list->size;
+    for (int i = 0; i < max_size; i++)
     {
         // dois menor
         t_node *smallest_st = list->items[0];

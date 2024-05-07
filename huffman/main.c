@@ -17,19 +17,22 @@ int main()
         scanf("%s", option);
         if (strcmp(option, "add") == 0)
         {
-            char e;//characteresrs
+            char e;
             int frequency;
             scanf(" %c %d%*c", &e, &frequency);
-            // if ()//(e not in list)
-            // {
+            int index = if_char_in_list(list, number_of_chars, e);
+            printf("index %d\n", index);
+            if (index != -1)
+            {
+                list->items[index]->frequency = frequency;
+                print_list(list); 
+            }
+            else
+            {
                 append_item(list, e, frequency);
                 number_of_chars++;
                 print_list(list); 
-            // }
-            // else
-            // {
-
-            // }
+            }
         }
         else if (strcmp(option, "calc") == 0)
         {
