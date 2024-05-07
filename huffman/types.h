@@ -22,6 +22,7 @@ typedef struct
 {
     char letra;
     char *string;
+    int frequency;
 } huffman_code;
 
 t_list *create_list();
@@ -34,8 +35,8 @@ t_tree *create_tree();
 t_node *create_node(char item, int frequency);
 t_node *calc(t_list *list);
 void node_path(t_node *node, char *path);
-huffman_code *create_code(char *code, char letra);
-void pre_order(t_node *node, int index, huffman_code **code_list);
+huffman_code *create_code(t_node *node);
+void pre_order(t_node *node, int *index, huffman_code **code_list);
 huffman_code **create_code_list(t_node *root, int number_of_chars);
 void print_tree(t_node *node, int qtd);
 void print_pre_order(t_node *node);

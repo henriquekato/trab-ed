@@ -20,7 +20,7 @@ t_node *create_node(char item, int frequency)
     node->frequency = frequency;
     node->left = NULL;
     node->right = NULL;
-    // node->path = "";
+    node->path = "";
     node->path = (char *)malloc(100 * sizeof(char));
     return node;
 }
@@ -136,77 +136,65 @@ void print_pre_order(t_node *node)
     print_pre_order(node->right);
 }
 
-// char *code(t_node *root, char *code){
-//     if (root == NULL) return -1;
-//     if (root == node) return 1;
-//     int left = height(root -> left, node);
-//     int right = height(root -> right, node);
-//     if (left == -1 && right == -1) return 0;
-//     if (left > right){
-//         return strcpy("1");
-//     }
-//     if (right > left) {
-//         return ++right;
-//     }
-//     return 0;
-// }
-
 void node_path(t_node *node, char *path)
 {
-    if (node == NULL || node->item == '-')
+    if (node == NULL)
         return;
-    strcpy(node->path, path); // n sei se é só isso
-    if (node->left)
-    {
-        strcat(node->path, "1");
-        node_path(node->left, node->path);
-        node->path[strlen(node->path) - 1] = '\0';
-    }
 
-    if (node->right)
-    {
-        strcat(node->path, "0");
-        node_path(node->right, node->path);
-        node->path[strlen(node->path) - 1] = '\0';
-    }
+    strcpy(node->path, path);
+
+    char left_path[100], right_path[100];
+    strcpy(left_path, path);
+    strcat(left_path, "1");
+    node_path(node->left, left_path);
+
+    strcpy(right_path, path);
+    strcat(right_path, "0");
+    node_path(node->right, right_path);
 }
-// ...
-huffman_code *create_code(char *code, char letra)
+
+huffman_code *create_code(t_node *node)
 {
     huffman_code *huff_code = (huffman_code *)malloc(sizeof(huffman_code));
     huff_code->string = (char *)malloc(100 * sizeof(char));
 
-    strcpy(huff_code->string, code);
-    huff_code->letra = letra;
+    strcpy(huff_code->string, node -> path);
+    huff_code->letra = node -> item;
+    huff_code->frequency = node -> frequency;
     return huff_code;
 }
 
-void pre_order(t_node *node, int index, huffman_code **code_list)
+void pre_order(t_node *node, int *index, huffman_code **code_list)
 {
     if (node == NULL || node->item == '\0')
         return;
     if (node->item != '-')
     {
-        code_list[index] = create_code(node->path, node->item);
+        code_list[(*index)++] = create_code(node);
     }
-    pre_order(node->left, index + 1, code_list);
-    pre_order(node->right, index + 1, code_list);
+    pre_order(node->left, index, code_list);
+    pre_order(node->right, index, code_list);
 }
 
 huffman_code **create_code_list(t_node *root, int number_of_chars)
 {
     huffman_code **code_list = (huffman_code **)malloc(number_of_chars * sizeof(huffman_code *));
 
+    int index = 0;
+
     node_path(root, "");
-    pre_order(root, 0, code_list);
+    pre_order(root, &index, code_list);
+
     return code_list;
 }
 
-void print_huffman(huffman_code **luiz, int number_of_chars)
+void print_huffman(huffman_code **code_list, int number_of_chars)
 {
     for (int i = 0; i < number_of_chars; i++)
     {
-        printf("%c - %s\n", luiz[i]->letra, luiz[i]->string);
+        printf("%c com frequencia %d codificado como %s\n", code_list[i]->letra, 
+                                                            code_list[i]->frequency,
+                                                            code_list[i]->string);
     }
 }
 

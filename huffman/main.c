@@ -46,8 +46,8 @@ int main()
         }
         else if (strcmp(option, "print") == 0)
         {
-            huffman_code ** luiz = create_code_list(tree->root, number_of_chars);
-            print_huffman(luiz, number_of_chars);
+            huffman_code ** code_list = create_code_list(tree->root, number_of_chars);
+            print_huffman(code_list, number_of_chars);
         }
         else if (strcmp(option, "cod") == 0)
         {
