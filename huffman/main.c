@@ -8,8 +8,8 @@
 int main()
 {
     char option[10] = "";
-    t_list *list = create_list();
     t_tree *tree = create_tree();
+    t_list *list = create_list();
     huffman_list *code_list = NULL;
     do
     {
@@ -40,7 +40,7 @@ int main()
         {
             if (list->size < 2)
             {
-                printf("\nInforme algum valor la\n");
+                printf("\nInforme algum valor\n");
             }
             else
             {
@@ -56,13 +56,15 @@ int main()
         }
         else if (strcmp(option, "cod") == 0)
         {
-            char text[10] = "";
-            scanf(" %s", text);
+            char letters[100] = "";
+            scanf(" %s", letters);
+            cod(letters, code_list);
         }
         else if (strcmp(option, "dec") == 0)
         {
-            char bits[10] = "";
+            char bits[100] = "";
             scanf(" %s", bits);
+            dec(bits, code_list);
         }
         else if (strcmp(option, "clear") == 0)
         {

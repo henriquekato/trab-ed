@@ -5,7 +5,6 @@ all: main_program
 
 main_program: main.o types.o #tree.o list.o
 	$(CC) $(CFLAGS) -o main_program main.o types.o
-#tree.o list.o .........opaopaopaopaopaop lulu oppa mas ai é erro meu li perdao rs
 
 main.o: main.c types.h
 	$(CC) $(CFLAGS) -c -o main.o main.c

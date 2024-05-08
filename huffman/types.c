@@ -88,13 +88,6 @@ void destroy_list(t_list *list)
     free(list);
 }
 
-// tree
-//  すごい
-//  geral: retorna a arvore (nó raiz) -> atribuido a tree->root no main
-//  1: pega os dois menor freq (maximo duas vezes: dois nó q é so nó)
-//  ou 1 nó de vdd + nó de mentira
-// 2: cria o nó de mentira, left e right
-// 3: att a lista
 t_node *calc(t_list *list)
 {
     int max_size = list->size;
@@ -150,10 +143,10 @@ void node_path(t_node *node, char *path)
 huffman_code *create_code(t_node *node)
 {
     huffman_code *huff_code = (huffman_code *)malloc(sizeof(huffman_code));
-    huff_code->string = (char *)malloc(100 * sizeof(char));
+    huff_code->code = (char *)malloc(100 * sizeof(char));
 
-    strcpy(huff_code->string, node->path);
-    huff_code->letra = node->item;
+    strcpy(huff_code->code, node->path);
+    huff_code->item = node->item;
     huff_code->frequency = node->frequency;
     return huff_code;
 }
@@ -190,12 +183,13 @@ huffman_list *create_code_list(t_tree *tree)
 
 void print_huffman(huffman_list *code_list)
 {
+    if (code_list == NULL) return;
     for (int i = 0; i < code_list->size; i++)
     {
         printf("%c com frequencia %d codificado como %s\n",
-               code_list->items[i]->letra,
+               code_list->items[i]->item,
                code_list->items[i]->frequency,
-               code_list->items[i]->string);
+               code_list->items[i]->code);
     }
 }
 
@@ -205,6 +199,7 @@ void clear_code_list(huffman_list *code_list)
     {
         for (int i = 0; i < code_list->size; i++)
         {
+            free(code_list->items[i]->code);
             free(code_list->items[i]);
         }
         code_list->size = 0;
@@ -251,4 +246,46 @@ void destroy_tree(t_tree *tree)
 {
     free_node(tree->root);
     free(tree);
+}
+
+void dec(char *sequence, huffman_list *code_list){
+    char *result = (char *) calloc(100, sizeof(char));
+    char *bits = (char *) calloc(10, sizeof(char));
+
+    for (int i = 0; i < strlen(sequence); i++){
+        strncat(bits, &sequence[i], 1);
+        for (int j = 0; j < code_list -> size; j++){
+            if (strcmp(bits, code_list -> items[j] -> code) == 0){
+                strncat(result, &code_list -> items[j] -> item, 1);
+                strcpy(bits, "");
+            }
+        }
+    }
+    printf("%s\n", result);
+    free(result);
+    free(bits);
+}
+
+void cod(char *sequence, huffman_list *code_list){
+    char *result = (char *) calloc(100, sizeof(char));
+    int letter_unique = code_list -> size;
+
+    int sequence_size = strlen(sequence) * 8;
+    int result_size;
+
+    for (int i = 0; i < strlen(sequence); i++){
+        for (int j = 0; j < code_list -> size; j++){
+            if (sequence[i] == code_list -> items[j] -> item){
+                strcat(result, code_list -> items[j] -> code);
+            }
+        }
+    }
+
+    result_size = strlen(result);
+    float max_bit = (float) result_size/sequence_size;
+    float min_bit = (float) sequence_size/letter_unique;
+    
+    printf("%s %.2f%% %.2f%%\n", result, max_bit * 100,
+                                (result_size/min_bit) * 100);
+    free(result);
 }

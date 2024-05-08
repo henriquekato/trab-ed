@@ -1,8 +1,8 @@
 typedef struct _node
 {
     char item;
-    int frequency;
     char *path;
+    int frequency;
     struct _node *left;
     struct _node *right;
 } t_node;
@@ -21,8 +21,8 @@ typedef struct
 
 typedef struct
 {
-    char letra;
-    char *string;
+    char item;
+    char *code;
     int frequency;
 } huffman_code;
 
@@ -43,6 +43,10 @@ void destroy_list(t_list *list);
 t_tree *create_tree();
 t_node *create_node(char item, int frequency);
 t_node *calc(t_list *list);
+void print_tree(t_node *node, int qtd);
+void free_node(t_node *node);
+void clear_tree(t_tree *tree);
+void destroy_tree(t_tree *tree);
 
 void node_path(t_node *node, char *path);
 huffman_code *create_code(t_node *node);
@@ -52,8 +56,5 @@ huffman_list *create_code_list(t_tree *tree);
 void print_huffman(huffman_list *code_list);
 void clear_code_list(huffman_list *code_list);
 void destroy_code_list(huffman_list *code_list);
-
-void print_tree(t_node *node, int qtd);
-void free_node(t_node *node);
-void clear_tree(t_tree *tree);
-void destroy_tree(t_tree *tree);
+void dec(char *sequence, huffman_list *code_list);
+void cod(char *sequence, huffman_list *code_list);
