@@ -8,9 +8,9 @@
 int main()
 {
     char option[10] = "";
-    int number_of_chars = 0;
     t_list *list = create_list();
     t_tree *tree = create_tree();
+    huffman_list *code_list = NULL;
     do
     {
         printf("->");
@@ -20,34 +20,39 @@ int main()
             char e;
             int frequency;
             scanf(" %c %d%*c", &e, &frequency);
-            int index = if_char_in_list(list, number_of_chars, e);
-            printf("index %d\n", index);
-            if (index != -1)
+            int index = if_char_in_list(list, e);
+            if (index > -1)
             {
                 list->items[index]->frequency = frequency;
-                print_list(list); 
             }
             else
             {
                 append_item(list, e, frequency);
-                number_of_chars++;
-                print_list(list); 
+                if (tree->root != NULL)
+                {
+                    clear_tree(tree);
+                }
+                tree->number_of_chars++;
             }
+            print_list(list);
         }
         else if (strcmp(option, "calc") == 0)
         {
-            if (list -> size < 1){
+            if (list->size < 2)
+            {
                 printf("\nInforme algum valor la\n");
             }
-            else{
-                tree -> root = calc(list);
-                print_tree(tree -> root, 0);
+            else
+            {
+                tree->root = calc(list);
+                print_tree(tree->root, 0);
+                clear_code_list(code_list);
+                code_list = create_code_list(tree);
             }
         }
         else if (strcmp(option, "print") == 0)
         {
-            huffman_code ** code_list = create_code_list(tree->root, number_of_chars);
-            print_huffman(code_list, number_of_chars);
+            print_huffman(code_list);
         }
         else if (strcmp(option, "cod") == 0)
         {
@@ -61,10 +66,14 @@ int main()
         }
         else if (strcmp(option, "clear") == 0)
         {
-            clear_tree(tree->root);
-            number_of_chars = 0;
+            clear_code_list(code_list);
+            clear_list(list);
+            clear_tree(tree);
         }
         printf("\n");
     } while (strcmp(option, "exit") != 0);
+    destroy_code_list(code_list);
+    destroy_list(list);
+    destroy_tree(tree);
     return 0;
 }
