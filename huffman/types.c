@@ -252,7 +252,7 @@ void dec(char *sequence, huffman_list *code_list){
     char *result = (char *) calloc(100, sizeof(char));
     char *bits = (char *) calloc(10, sizeof(char));
 
-    for (int i = 0; i < strlen(sequence); i++){
+    for (int i = 0; i < (int) strlen(sequence); i++){
         strncat(bits, &sequence[i], 1);
         for (int j = 0; j < code_list -> size; j++){
             if (strcmp(bits, code_list -> items[j] -> code) == 0){
@@ -273,7 +273,7 @@ void cod(char *sequence, huffman_list *code_list){
     int sequence_size = strlen(sequence) * 8;
     int result_size;
 
-    for (int i = 0; i < strlen(sequence); i++){
+    for (int i = 0; i < (int) strlen(sequence); i++){
         for (int j = 0; j < code_list -> size; j++){
             if (sequence[i] == code_list -> items[j] -> item){
                 strcat(result, code_list -> items[j] -> code);
