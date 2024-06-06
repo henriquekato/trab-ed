@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "types.h"
+#include "list.h"
+#include "tree.h"
+#include "huffman.h"
 
 int main()
 {
